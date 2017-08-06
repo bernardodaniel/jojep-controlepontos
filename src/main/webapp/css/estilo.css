@@ -1,0 +1,80 @@
+body {
+	font-family: 'Ubuntu Condensed', sans-serfi;
+}
+
+
+.login h1 {
+	font-weight: bold;
+	text-align: center;
+}
+
+.login h2 {
+	font-size: 1.5em;
+	color: #0066ff;
+	text-align: center;
+}
+
+.login form {
+  max-width: 450px;
+  padding: 30px 38px 66px;
+  margin: 0 auto;
+  margin-top: 50px;  
+}
+
+.login form input {
+	background-color: #ffe066;
+}
+
+.login .footer .se7 div {
+	padding: 10px;
+}
+
+.login .footer .se7 h1 {
+	margin-top: 15px;
+	font-size: 1.5em;
+	text-align: left;
+}
+
+.login .footer .contato {
+	margin-top: 8px;
+}
+
+.login .footer .contato p {
+	font-size: 1.3em;
+	margin: 0px;
+}
+
+
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 150px;
+  background-color: #f5f5f5;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+.container {
+  width: auto;
+  max-width: 680px;
+  padding: 0 15px;
+}
+.container .text-muted {
+  margin: 20px 0;
+}
