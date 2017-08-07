@@ -16,6 +16,14 @@ body {
 	text-align: center;
 }
 
+.login .logo img {
+	width: 154px;
+	display: block;
+	margin: 0 auto;
+	margin-top: 10px;
+}
+
+
 .login form {
   max-width: 450px;
   padding: 30px 38px 66px;
@@ -31,6 +39,11 @@ body {
 
 /* home
 -------------------------------------------------- */
+.home {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 .home h1 {
 	font-size: 1.7em;
 	font-weight: bold;
@@ -41,11 +54,82 @@ body {
 	color: #0066ff;
 }
 
+.home .panel-default>.panel-heading {
+	background-color: #ffe066;
+}
 
+.home .esquerdo {
+	
+}
+
+.home table .first {
+	font-weight: bold;
+	font-size: 1.5em;
+	color: #e6c300;
+}
+
+.home table .second {
+	font-weight: bold;
+	font-size: 1.2em;
+	color: #a6a6a6;
+}
+
+.home table .third {
+	font-weight: bold;
+	font-size: 1.em;
+	color: #cc6600;
+}
+
+
+
+.home .filtros {
+	height: 100px;
+}
+
+.btn-sq-lg {
+  width: 80px !important;
+  height: 80px !important;
+}
+
+.home .filtros input {
+	margin-top: 15px;
+}
+
+.home .cidades {
+	
+}
+
+.home .tabela {
+	
+}
+
+.home .tabela .pos {
+	width: 15px;
+}
+
+.home .tabela .nome {
+	width: 200px;
+}
+
+.home .tabela .pontos {
+	width: 15px;
+}
+
+.home .tabela .dia {
+	width: 30px;
+}
+
+.home .tabela input {
+	width: 30px;
+}
 
 
 /* footer
 -------------------------------------------------- */
+.footer img {
+	margin-top: 12px;
+}
+
 .footer .se7 div {
 	padding: 10px;
 }
@@ -81,7 +165,7 @@ body {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 120px;
+  height: 100px;
   background-color: #f5f5f5;
 }
 

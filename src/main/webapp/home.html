@@ -4,31 +4,146 @@
 <meta charset="UTF-8">
 <title>JOJEPS - FACIAP JOVENS</title>
 <link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/estilo.css">
 <link rel="icon" type="image/png" href="img/favicon.jpg">
 </head>
 <body>
 
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">
+        <img alt="JOJEPS - FACIAP JOVEM" src="img/jojeps-small.jpg" class="pull-left">
+        <span class="pull-right">Sistema de controle de pontos</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuário Logado <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Sair</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 <div class="home">
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">Sistema de controle de pontos - JOJEPS - FACIAP JOVEM</a>
+  
+  <div class="row">
+    <div class="esquerdo col-sm-3">
+      <div class="top3">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Ranking</h3>
+          </div>
+          <div class="panel-body">
+            <table class="table ranking">
+              <tbody>
+                <tr class="first">
+                  <td>1</td>
+                  <td>Participante 1</td>
+                  <td>231</td>
+                </tr>
+                <tr class="second">
+                  <td>2</td>
+                  <td>Participante 2</td>
+                  <td>220</td>
+                <tr class="third">
+                  <td>3</td>
+                  <td>Participante 3</td>
+                  <td>210</td>
+                </tr>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuário Logado <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Sair</a></li>
+    
+      <div class="cidades">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Cidades</h3>
+          </div>
+          <div class="panel-body">
+            <ul class="list-unstyled">
+              <li><input type="checkbox"/> Campo Mourão </li>
+              <li><input type="checkbox"/> Maringá </li>
             </ul>
-          </li>
-        </ul>
+          </div>
+        </div>
+      </div>    
+    </div>
+    
+    <div class="conteudo col-sm-9">
+      <div class="filtros">
+        <div class="col-sm-3">
+          <a href="#" class="btn btn-sq-lg btn-danger">
+              <i class="fa fa-venus fa-2x"></i><br/><br/>
+              Mulheres
+          </a>
+          <a href="#" class="btn btn-sq-lg btn-primary">
+              <i class="fa fa-mars fa-2x"></i><br/><br/>
+              Homens
+          </a>
+        </div>
+        <div class="col-sm-9">
+          <div class="col-md-12">
+               <input type="text" class="form-control input-lg" placeholder="Pesquisa por nome..." />
+           </div>
+        </div>
+      </div>
+    
+      <div class="tabela">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="pos">Pos.</th>
+              <th class="nome">Nome</th>
+              <th class="pontos">Pontos</th>
+              <th class="dia">30/07</th>
+              <th>31/07</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Participante 1</td>
+              <td>231</td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Participante 2</td>
+              <td>220</td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Participante 3</td>
+              <td>210</td>
+              <td><input type="text"></td>
+              <td><input type="text"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </nav>
+  </div>
+    
+  
+    
+    
   
   <form class="form-horizontal">
 	
