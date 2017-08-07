@@ -68,15 +68,19 @@ body {
 	color: #e6c300;
 }
 
+.home .rank .cidade {
+	font-size: 0.7em;
+}
+
 .home table .second {
 	font-weight: bold;
-	font-size: 1.2em;
+	font-size: 1.3em;
 	color: #a6a6a6;
 }
 
 .home table .third {
 	font-weight: bold;
-	font-size: 1.em;
+	font-size: 1.1em;
 	color: #cc6600;
 }
 
@@ -115,6 +119,10 @@ body {
 	width: 15px;
 }
 
+.home .tabela .cidade {
+	width: 120px;
+}
+
 .home .tabela .dia {
 	width: 30px;
 }
@@ -149,6 +157,40 @@ body {
 	margin: 0px;
 }
 
+.outer {
+  width: 100%;
+  text-align: center;
+}
+
+.inner {
+  display: inline-block;
+}
+
+.se7-text {
+	display: inline-block;
+	margin: 0 auto;
+	font-size: 1em;
+	margin-top: 2px;
+}
+
+.footer img {
+	width: 53;
+	height: 30px;
+	margin-top: 6px;
+	vertical-align: top;
+}
+
+
+.footer .se7 h1 {
+	font-size: 1em;
+	text-align: left;
+	margin-top: 5px;
+}
+
+.footer .contato {
+	font-size: 1em;
+}
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -165,9 +207,10 @@ body {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 100px;
+  height: 80px;
   background-color: #f5f5f5;
 }
+
 
 
 /* Custom page CSS
