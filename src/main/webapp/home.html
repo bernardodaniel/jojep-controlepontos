@@ -8,12 +8,88 @@
 <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
 
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript" src="js/checklist-model.js"></script>
+
+<script type="text/javascript">
+
+  var app = angular.module('app', ['checklist-model']);
+  
+  app.controller('AppController', function($scope, $http) {
+    $scope.users = []
+    
+    load();
+    
+    function load() {
+    	$scope.primeirosColocados = [
+    		{
+    			"posicao" : 1,
+                "nome": "Peter Parker",
+                "cidade" : "Maringá",
+                "pontos" : "230"
+    		},
+    		{
+    			"posicao" : 2,
+                "nome": "Tony Stark",
+                "cidade" : "Cascavel",
+                "pontos" : "220"
+    		},
+    		{
+    			"posicao" : 3,
+                "nome": "Brian Banner",
+                "cidade" : "Campo Mourão",
+                "pontos" : "210"
+    		}
+    	];
+    	
+    	$scope.participantes = $scope.primeirosColocados;
+    	
+    	$scope.cidades = [
+    		"Maringá",
+    		"Cascavel",
+    		"Campo Mourão"
+    	];
+    	
+    	$scope.cidadesSelecionadas = [
+    		"Maringá",
+    		"Cascavel",
+    		"Campo Mourão"
+    	];
+    	
+     	$scope.nomeFiltro = '';
+    	
+    	$scope.filtros = function(participante) {
+    		var cidadeCorrespondente = $scope.cidadesSelecionadas.some( function(i) {
+    			return i === participante.cidade;
+    		});
+    		
+    		debugger;
+    		
+    		var nomeCorrespondente = $scope.nomeFiltro == '' || participante.nome.toLowerCase().includes($scope.nomeFiltro.toLowerCase())
+    		
+    		return cidadeCorrespondente && nomeCorrespondente;
+    	}
+    	
+    	
+//     	$http({
+//     		method: 'GET',
+//     		url: 'participantes'
+//     	}).then(function successCalback(response) {
+//     		$scope.participantes = response.data;
+//     	}, function errorCallback(response) {
+//     		console.log(response.statusText);
+//     	});
+    }
+    
+  });
+
+</script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/estilo.css">
 <link rel="icon" type="image/png" href="img/favicon.jpg">
 </head>
-<body>
+
+<body ng-app="app" ng-controller="AppController">
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -47,20 +123,10 @@
           <div class="panel-body">
             <table class="table ranking">
               <tbody>
-                <tr class="first rank">
-                  <td>1</td>
-                  <td>Participante 1<br/><p class="cidade">Maringá</p></td>
-                  <td>231</td>
-                </tr>
-                <tr class="second rank">
-                  <td>2</td>
-                  <td>Participante 2<p class="cidade">Campo Mourão</p></td>
-                  <td>220</td>
-                <tr class="third rank">
-                  <td>3</td>
-                  <td>Participante 3<p class="cidade">Campo Mourão</p></td>
-                  <td>210</td>
-                </tr>
+                <tr ng-repeat="p in primeirosColocados" ng-class="{'first': p.posicao == 1, 'second': p.posicao == 2, 'third': p.posicao == 3}" class="rank">
+                  <td>{{p.posicao}}</td>
+                  <td>{{p.nome}}<br/><p class="cidade">{{p.cidade}}</p></td>
+                  <td>{{p.pontos}}</td>
                 </tr>
               </tbody>
             </table>
@@ -75,8 +141,9 @@
           </div>
           <div class="panel-body">
             <ul class="list-unstyled">
-              <li><input type="checkbox"/> Campo Mourão </li>
-              <li><input type="checkbox"/> Maringá </li>
+              <li ng-repeat="c in cidades | orderBy:'nome'">
+                <input type="checkbox" checklist-model="cidadesSelecionadas" checklist-value="c"> {{c}} 
+              </li>
             </ul>
           </div>
         </div>
@@ -104,7 +171,7 @@
         </div>
         <div class="col-sm-9">
           <div class="col-md-12">
-               <input type="text" class="form-control input-lg" placeholder="Pesquisa por nome..." />
+               <input type="text" ng-model="nomeFiltro" class="form-control input-lg" placeholder="Pesquisa por nome..." />
            </div>
         </div>
       </div>
@@ -122,30 +189,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Participante 1</td>
-              <td>Maringá</td>
-              <td>231</td>
+            <tr ng-repeat="p in participantes | filter:filtros">
+              <td>{{p.posicao}}</td>
+              <td>{{p.nome}}</td>
+              <td>{{p.cidade}}</td>
+              <td>{{p.pontos}}</td>
               <td><input type="text"></td>
               <td><input type="text"></td>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>Participante 2</td>
-              <td>Campo Mourão</td>
-              <td>220</td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Participante 3</td>
-              <td>Campo Mourão</td>
-              <td>210</td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
-            </tr>
+          
           </tbody>
         </table>
       </div>
