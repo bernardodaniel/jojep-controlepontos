@@ -20,28 +20,44 @@
     load();
     
     function load() {
-    	$scope.primeirosColocados = [
+    	$scope.participantes = [
     		{
     			"posicao" : 1,
                 "nome": "Peter Parker",
                 "cidade" : "Maringá",
-                "pontos" : "230"
+                "pontos" : "230",
+                "sexo" : "M"
     		},
     		{
     			"posicao" : 2,
                 "nome": "Tony Stark",
                 "cidade" : "Cascavel",
-                "pontos" : "220"
+                "pontos" : "220",
+                "sexo" : "M"
     		},
     		{
     			"posicao" : 3,
                 "nome": "Brian Banner",
                 "cidade" : "Campo Mourão",
-                "pontos" : "210"
+                "pontos" : "210",
+                "sexo" : "M"
+    		},
+    		{
+    			"posicao" : 4,
+                "nome": "Mulher Maravilha",
+                "cidade" : "Campo Mourão",
+                "pontos" : "200",
+                "sexo" : "F"
+    		},
+    		{
+    			"posicao" : 5,
+                "nome": "Batman",
+                "cidade" : "Maringá",
+                "pontos" : "190",
+                "sexo" : "M"
     		}
     	];
     	
-    	$scope.participantes = $scope.primeirosColocados;
     	
     	$scope.cidades = [
     		"Maringá",
@@ -56,17 +72,53 @@
     	];
     	
      	$scope.nomeFiltro = '';
+     	
+     	$scope.sexoFeminino = true;
+     	$scope.sexoMasculino = true;
+     	$scope.sexos = ['M', 'F'];
     	
+     	$scope.mulheresBtnClick = function() {
+     		var contem = $scope.sexos.some( function(i) {
+    			return i === 'F';
+    		});
+     		
+     		if (contem) {
+     			$scope.sexos.splice($scope.sexos.indexOf('F'), 1);
+     			$scope.sexoFeminino = false;
+     		} else {
+     			$scope.sexos.push('F');
+     			$scope.sexoFeminino = true;
+     		}
+     		
+     	}
+    	
+     	$scope.homensBtnClick = function() {
+     		var contem = $scope.sexos.some( function(i) {
+    			return i === 'M';
+    		});
+     		
+     		if (contem) {
+     			$scope.sexos.splice($scope.sexos.indexOf('M'), 1);
+     			$scope.sexoMasculino = false;
+     		} else {
+     			$scope.sexos.push('M');
+     			$scope.sexoMasculino = true;
+     		}
+     	}
+     	
     	$scope.filtros = function(participante) {
     		var cidadeCorrespondente = $scope.cidadesSelecionadas.some( function(i) {
     			return i === participante.cidade;
     		});
     		
-    		debugger;
     		
-    		var nomeCorrespondente = $scope.nomeFiltro == '' || participante.nome.toLowerCase().includes($scope.nomeFiltro.toLowerCase())
+    		var nomeCorrespondente = $scope.nomeFiltro == '' || participante.nome.toLowerCase().includes($scope.nomeFiltro.toLowerCase());
     		
-    		return cidadeCorrespondente && nomeCorrespondente;
+    		var sexoCorrespondente = $scope.sexos.some( function(i) {
+    			return i === participante.sexo;
+    		});
+    		
+    		return cidadeCorrespondente && nomeCorrespondente && sexoCorrespondente;
     	}
     	
     	
@@ -123,7 +175,7 @@
           <div class="panel-body">
             <table class="table ranking">
               <tbody>
-                <tr ng-repeat="p in primeirosColocados" ng-class="{'first': p.posicao == 1, 'second': p.posicao == 2, 'third': p.posicao == 3}" class="rank">
+                <tr ng-repeat="p in participantes|limitTo:3" ng-class="{'first': p.posicao == 1, 'second': p.posicao == 2, 'third': p.posicao == 3}" class="rank">
                   <td>{{p.posicao}}</td>
                   <td>{{p.nome}}<br/><p class="cidade">{{p.cidade}}</p></td>
                   <td>{{p.pontos}}</td>
@@ -154,15 +206,11 @@
       <div class="filtros">
         <div class="col-sm-3">
           <div class="btn-group btn-group-justified" role="group" aria-label="...">
-            <a href="#" class="btn btn-sq-lg btn-default">
-              <i class="fa fa-neuter fa-2x"></i><br/><br/>
-              Todos
-            </a>
-            <a href="#" class="btn btn-sq-lg btn-danger">
+            <a href="#" class="btn btn-sq-lg" ng-class="{'btn-danger': sexoFeminino, 'btn-default': sexo != 'F'}" id="mulheresBtn" ng-click="mulheresBtnClick()">
               <i class="fa fa-venus fa-2x"></i><br/><br/>
               Mulheres
             </a>
-            <a href="#" class="btn btn-sq-lg btn-primary">
+            <a href="#" class="btn btn-sq-lg" ng-class="{'btn-primary': sexoMasculino, 'btn-default': sexo != 'M'}" id="homensBtn" ng-click="homensBtnClick()">
               <i class="fa fa-mars fa-2x"></i><br/><br/>
               Homens
             </a>
