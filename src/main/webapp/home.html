@@ -25,36 +25,91 @@
     			"posicao" : 1,
                 "nome": "Peter Parker",
                 "cidade" : "Maringá",
-                "pontos" : "230",
-                "sexo" : "M"
+                "totalPontos" : "230",
+                "sexo" : "M",
+                "pontos": [
+                	{
+                		"seq": 1,
+                		"data": "30/07",
+                		"pontuacao": 230
+                	},
+                	{
+                		"seq": 2,
+                		"data": "31/07"
+                	}
+                ]
     		},
     		{
     			"posicao" : 2,
                 "nome": "Tony Stark",
                 "cidade" : "Cascavel",
-                "pontos" : "220",
-                "sexo" : "M"
+                "totalPontos" : "220",
+                "sexo" : "M",
+                "pontos": [
+                	{
+                		"seq": 1,
+                		"data": "30/07",
+                		"pontuacao": 220
+                	},
+                	{
+                		"seq": 2,
+                		"data": "31/07"
+                	}
+                ]
     		},
     		{
     			"posicao" : 3,
                 "nome": "Brian Banner",
                 "cidade" : "Campo Mourão",
-                "pontos" : "210",
-                "sexo" : "M"
+                "totalPontos" : "210",
+                "sexo" : "M",
+                "pontos": [
+                	{
+                		"seq": 1,
+                		"data": "30/07",
+                		"pontuacao": 210
+                	},
+                	{
+                		"seq": 2,
+                		"data": "31/07"
+                	}
+                ]
     		},
     		{
     			"posicao" : 4,
                 "nome": "Mulher Maravilha",
                 "cidade" : "Campo Mourão",
-                "pontos" : "200",
-                "sexo" : "F"
+                "totalPontos" : "200",
+                "sexo" : "F",
+                "pontos": [
+                	{
+                		"seq": 1,
+                		"data": "30/07",
+                		"pontuacao": 200
+                	},
+                	{
+                		"seq": 2,
+                		"data": "31/07"
+                	}
+                ]
     		},
     		{
     			"posicao" : 5,
                 "nome": "Batman",
                 "cidade" : "Maringá",
-                "pontos" : "190",
-                "sexo" : "M"
+                "totalPontos" : "190",
+                "sexo" : "M",
+                "pontos": [
+                	{
+                		"seq": 1,
+                		"data": "30/07",
+                		"pontuacao": 190
+                	},
+                	{
+                		"seq": 2,
+                		"data": "31/07"
+                	}
+                ]
     		}
     	];
     	
@@ -178,7 +233,7 @@
                 <tr ng-repeat="p in participantes|limitTo:3" ng-class="{'first': p.posicao == 1, 'second': p.posicao == 2, 'third': p.posicao == 3}" class="rank">
                   <td>{{p.posicao}}</td>
                   <td>{{p.nome}}<br/><p class="cidade">{{p.cidade}}</p></td>
-                  <td>{{p.pontos}}</td>
+                  <td>{{p.totalPontos}}</td>
                 </tr>
               </tbody>
             </table>
@@ -227,13 +282,16 @@
       <div class="tabela">
         <table class="table">
           <thead>
-            <tr>
+            <tr ng-repeat="p in participantes | limitTo:1">
               <th class="pos">Pos.</th>
               <th class="nome">Nome</th>
               <th class="cidade">Cidade</th>
               <th class="pontos">Pontos</th>
-              <th class="dia">30/07</th>
-              <th>31/07</th>
+              
+              <th ng-repeat="pt in p.pontos | orderBy:'seq'" class="dia">
+                {{pt.data}}
+              </th>
+              
             </tr>
           </thead>
           <tbody>
@@ -241,9 +299,10 @@
               <td>{{p.posicao}}</td>
               <td>{{p.nome}}</td>
               <td>{{p.cidade}}</td>
-              <td>{{p.pontos}}</td>
-              <td><input type="text"></td>
-              <td><input type="text"></td>
+              <td>{{p.totalPontos}}</td>
+              <td ng-repeat="pt in p.pontos | orderBy:'seq'" >
+                <input type="text" value="{{pt.pontuacao}}">
+              </td>
             </tr>
           
           </tbody>
