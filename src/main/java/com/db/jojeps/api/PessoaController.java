@@ -1,12 +1,19 @@
 package com.db.jojeps.api;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,48 +22,69 @@ public class PessoaController {
 	@Autowired
 	private PessoaRepository pessoaRepo;
 	
-	@GetMapping(path = "/participantes")
-	public List<Pessoa> getParticipantes(HttpServletResponse response) {
+	@PostMapping("/admin/import")
+	public String importar() {
+		File file = new File("dados.csv");
 		
-		List<Pessoa> pessoas = new ArrayList<>();
+		pessoaRepo.deleteAll();
 		
-		Pessoa p = new Pessoa();
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			
+			String st;
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
+			Date inicio = sdf.parse("30/07/2017");
+			Date fim = sdf.parse("27/09/2017");
+			
+			while((st = br.readLine()) != null){
+				Date atual = inicio;
+				String[] colunas = st.split(";");
+				
+				Pessoa p = new Pessoa();
+				
+				p.nome = colunas[0];
+				p.sexo = colunas[1].substring(0, 1);
+				p.endereco = colunas[2];
+				p.cidade = colunas[3];
+				p.email = colunas[4];
+				p.celular = colunas[5];
+				p.telefone = colunas[6];
+				p.empresa = colunas[7];
+				
+				int seq = 1;
+				
+				do {
+					Ponto pt = new Ponto();
+					pt.seq = seq++;
+					pt.data = sdf.format(atual);
+					
+					p.pontos.add(pt);
+					
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(atual);
+					cal.add(Calendar.DATE, 1);
+					atual = cal.getTime();
+					
+				} while (atual.before(fim));
+			
+				pessoaRepo.save(p);
+				
+				System.out.println(p);
+			}
+			
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+			return "erro: " + e.getMessage();
+		}
 		
-		p.posicao = 1;
-		p.nome = "Peter Parker";
-		p.cidade = "Maringá";
-		p.totalPontos = 230.0;
-		p.sexo = "M";
-		
-		Ponto pt = new Ponto();
-		pt.seq = 1;
-		pt.data = "30/07";
-		pt.pontuacao = 235.0;
-		
-		p.pontos = new ArrayList<>();
-		p.pontos.add(pt);
-
-		pessoas.add(p);
-		
-		p = new Pessoa();
-		
-		p.posicao = 2;
-		p.nome = "Tony Stark";
-		p.cidade = "Cascavel";
-		p.totalPontos = 220.0;
-		p.sexo = "M";
-		
-		pt = new Ponto();
-		pt.seq = 2;
-		pt.data = "30/07";
-		pt.pontuacao = 220.0;
-		
-		p.pontos = new ArrayList<>();
-		p.pontos.add(pt);
-
-		pessoas.add(p);
-		
-		return pessoas;
+		return "sucesso";
+	}
+	
+	
+	@GetMapping("/participantes")
+	public List<Pessoa> getParticipantes() {
+		return pessoaRepo.findAll();
 	}
 
 	

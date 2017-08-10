@@ -42,6 +42,9 @@
         	    $scope.cidadesSelecionadas.push(cidade);
         	  }
         	  
+        	  
+        	  console.log($scope.participantes[i].nome);
+        	  
         	}
         	
         	
@@ -215,7 +218,7 @@
               <td>{{p.cidade}}</td>
               <td>{{p.totalPontos}}</td>
               <td ng-repeat="pt in p.pontos | orderBy:'seq'" >
-                <input type="text" value="{{pt.pontuacao}}">
+                <input type="text">
               </td>
             </tr>
           

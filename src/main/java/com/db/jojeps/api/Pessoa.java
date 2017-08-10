@@ -1,5 +1,6 @@
 package com.db.jojeps.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -16,9 +17,14 @@ public class Pessoa {
 	public String cidade;
 	public Double totalPontos;
 	public String sexo;
+	public String endereco;
+	public String email;
+	public String celular;
+	public String telefone;
+	public String empresa;
 	
-	public List<Ponto> pontos;
-	
+	public List<Ponto> pontos = new ArrayList<>();
+
 	@Override
 	public String toString() {
 		return nome + " - " + cidade + " - " + totalPontos;

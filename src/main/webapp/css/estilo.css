@@ -108,27 +108,27 @@ body {
 }
 
 .home .tabela .pos {
-	width: 15px;
+	min-width: 15px;
 }
 
 .home .tabela .nome {
-	width: 200px;
+	min-width: 200px;
 }
 
 .home .tabela .pontos {
-	width: 15px;
+	min-width: 15px;
 }
 
 .home .tabela .cidade {
-	width: 120px;
+	min-width: 120px;
 }
 
 .home .tabela .dia {
-	width: 30px;
+	min-width: 30px;
 }
 
 .home .tabela input {
-	width: 30px;
+	max-width: 30px;
 	text-align: center;
 }
 
