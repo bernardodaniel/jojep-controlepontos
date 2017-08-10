@@ -15,119 +15,42 @@
   var app = angular.module('app', ['checklist-model']);
   
   app.controller('AppController', function($scope, $http) {
-    $scope.users = []
+    $scope.users = [];
     
     load();
     
     function load() {
-    	$scope.participantes = [
-    		{
-    			"posicao" : 1,
-                "nome": "Peter Parker",
-                "cidade" : "Maringá",
-                "totalPontos" : "230",
-                "sexo" : "M",
-                "pontos": [
-                	{
-                		"seq": 1,
-                		"data": "30/07",
-                		"pontuacao": 230
-                	},
-                	{
-                		"seq": 2,
-                		"data": "31/07"
-                	}
-                ]
-    		},
-    		{
-    			"posicao" : 2,
-                "nome": "Tony Stark",
-                "cidade" : "Cascavel",
-                "totalPontos" : "220",
-                "sexo" : "M",
-                "pontos": [
-                	{
-                		"seq": 1,
-                		"data": "30/07",
-                		"pontuacao": 220
-                	},
-                	{
-                		"seq": 2,
-                		"data": "31/07"
-                	}
-                ]
-    		},
-    		{
-    			"posicao" : 3,
-                "nome": "Brian Banner",
-                "cidade" : "Campo Mourão",
-                "totalPontos" : "210",
-                "sexo" : "M",
-                "pontos": [
-                	{
-                		"seq": 1,
-                		"data": "30/07",
-                		"pontuacao": 210
-                	},
-                	{
-                		"seq": 2,
-                		"data": "31/07"
-                	}
-                ]
-    		},
-    		{
-    			"posicao" : 4,
-                "nome": "Mulher Maravilha",
-                "cidade" : "Campo Mourão",
-                "totalPontos" : "200",
-                "sexo" : "F",
-                "pontos": [
-                	{
-                		"seq": 1,
-                		"data": "30/07",
-                		"pontuacao": 200
-                	},
-                	{
-                		"seq": 2,
-                		"data": "31/07"
-                	}
-                ]
-    		},
-    		{
-    			"posicao" : 5,
-                "nome": "Batman",
-                "cidade" : "Maringá",
-                "totalPontos" : "190",
-                "sexo" : "M",
-                "pontos": [
-                	{
-                		"seq": 1,
-                		"data": "30/07",
-                		"pontuacao": 190
-                	},
-                	{
-                		"seq": 2,
-                		"data": "31/07"
-                	}
-                ]
-    		}
-    	];
     	
-    	
-    	$scope.cidades = [
-    		"Maringá",
-    		"Cascavel",
-    		"Campo Mourão"
-    	];
-    	
-    	$scope.cidadesSelecionadas = [
-    		"Maringá",
-    		"Cascavel",
-    		"Campo Mourão"
-    	];
+    	$http({
+    		method: 'GET',
+    		url: 'participantes'
+    	}).then(function successCalback(response) {
+    		$scope.participantes = response.data;
+    		
+    	   	$scope.cidades = [];
+    	   	$scope.cidadesSelecionadas = [];
+        	
+        	for (var i=0, len = $scope.participantes.length; i < len; i++) {
+        	  var cidade = $scope.participantes[i].cidade;
+        	  
+        	  var contemCidade = $scope.cidades.some(function(c) {
+        		  return c === cidade;
+        	  });
+        	  
+        	  if (!contemCidade) {
+        	    $scope.cidades.push(cidade);
+        	    $scope.cidadesSelecionadas.push(cidade);
+        	  }
+        	  
+        	}
+        	
+        	
+    	}, function errorCallback(response) {
+    		console.log(response.statusText);
+    	});
+
     	
      	$scope.nomeFiltro = '';
-     	
      	$scope.sexoFeminino = true;
      	$scope.sexoMasculino = true;
      	$scope.sexos = ['M', 'F'];
@@ -175,16 +98,7 @@
     		
     		return cidadeCorrespondente && nomeCorrespondente && sexoCorrespondente;
     	}
-    	
-    	
-//     	$http({
-//     		method: 'GET',
-//     		url: 'participantes'
-//     	}).then(function successCalback(response) {
-//     		$scope.participantes = response.data;
-//     	}, function errorCallback(response) {
-//     		console.log(response.statusText);
-//     	});
+
     }
     
   });

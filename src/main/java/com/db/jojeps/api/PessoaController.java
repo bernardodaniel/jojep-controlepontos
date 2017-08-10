@@ -1,16 +1,13 @@
 package com.db.jojeps.api;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 public class PessoaController {
@@ -18,25 +15,49 @@ public class PessoaController {
 	@Autowired
 	private PessoaRepository pessoaRepo;
 	
-	@PostMapping("/fill")
-	public ResponseEntity<List<Pessoa>> load(HttpServletResponse response) {
+	@GetMapping(path = "/participantes")
+	public List<Pessoa> getParticipantes(HttpServletResponse response) {
 		
 		List<Pessoa> pessoas = new ArrayList<>();
 		
 		Pessoa p = new Pessoa();
-		p.nome = "Teste 1";
+		
+		p.posicao = 1;
+		p.nome = "Peter Parker";
+		p.cidade = "Maringá";
+		p.totalPontos = 230.0;
+		p.sexo = "M";
+		
+		Ponto pt = new Ponto();
+		pt.seq = 1;
+		pt.data = "30/07";
+		pt.pontuacao = 235.0;
+		
+		p.pontos = new ArrayList<>();
+		p.pontos.add(pt);
 
-		Pessoa p1 = new Pessoa();
-		p1.nome = "Teste 2";
-		
 		pessoas.add(p);
-		pessoas.add(p1);
 		
-		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().buildAndExpand("/participantes").toUri();
+		p = new Pessoa();
 		
-		response.setHeader("Location", uri.toASCIIString());
+		p.posicao = 2;
+		p.nome = "Tony Stark";
+		p.cidade = "Cascavel";
+		p.totalPontos = 220.0;
+		p.sexo = "M";
 		
-		return ResponseEntity.created(uri).body(pessoas);
+		pt = new Ponto();
+		pt.seq = 2;
+		pt.data = "30/07";
+		pt.pontuacao = 220.0;
+		
+		p.pontos = new ArrayList<>();
+		p.pontos.add(pt);
+
+		pessoas.add(p);
+		
+		return pessoas;
 	}
+
 	
 }
