@@ -1,1 +1,1 @@
-web: java -Xmx384m -Xss512k -XX:+UseCompressedOops -jar target/*.jar --spring.profiles.active=prod --server.port=$PORT --spring.data.mongodb.uri=$MONGOLAB_URI
+java -Dserver.port=$PORT $JAVA_OPTS -jar target/jojeps-controlepontos-api-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
