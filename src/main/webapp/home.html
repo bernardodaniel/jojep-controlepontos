@@ -20,7 +20,6 @@
     load();
     
     function load() {
-    	
     	$http({
     		method: 'GET',
     		url: 'participantes'
@@ -41,68 +40,80 @@
         	    $scope.cidades.push(cidade);
         	    $scope.cidadesSelecionadas.push(cidade);
         	  }
-        	  
-        	  
-        	  console.log($scope.participantes[i].nome);
-        	  
         	}
-        	
-        	
     	}, function errorCallback(response) {
     		console.log(response.statusText);
     	});
 
+    }
+   	$scope.nomeFiltro = '';
+   	$scope.sexoFeminino = true;
+   	$scope.sexoMasculino = true;
+   	$scope.sexos = ['M', 'F'];
+  	
+   	$scope.mulheresBtnClick = function() {
+   		var contem = $scope.sexos.some( function(i) {
+  			return i === 'F';
+  		});
+   		
+   		if (contem) {
+   			$scope.sexos.splice($scope.sexos.indexOf('F'), 1);
+   			$scope.sexoFeminino = false;
+   		} else {
+   			$scope.sexos.push('F');
+   			$scope.sexoFeminino = true;
+   		}
+   		
+   	}
+  	
+   	$scope.homensBtnClick = function() {
+   		var contem = $scope.sexos.some( function(i) {
+  			return i === 'M';
+  		});
+   		
+   		if (contem) {
+   			$scope.sexos.splice($scope.sexos.indexOf('M'), 1);
+   			$scope.sexoMasculino = false;
+   		} else {
+   			$scope.sexos.push('M');
+   			$scope.sexoMasculino = true;
+   		}
+   	}
     	
-     	$scope.nomeFiltro = '';
-     	$scope.sexoFeminino = true;
-     	$scope.sexoMasculino = true;
-     	$scope.sexos = ['M', 'F'];
-    	
-     	$scope.mulheresBtnClick = function() {
-     		var contem = $scope.sexos.some( function(i) {
-    			return i === 'F';
-    		});
-     		
-     		if (contem) {
-     			$scope.sexos.splice($scope.sexos.indexOf('F'), 1);
-     			$scope.sexoFeminino = false;
-     		} else {
-     			$scope.sexos.push('F');
-     			$scope.sexoFeminino = true;
-     		}
-     		
-     	}
-    	
-     	$scope.homensBtnClick = function() {
-     		var contem = $scope.sexos.some( function(i) {
-    			return i === 'M';
-    		});
-     		
-     		if (contem) {
-     			$scope.sexos.splice($scope.sexos.indexOf('M'), 1);
-     			$scope.sexoMasculino = false;
-     		} else {
-     			$scope.sexos.push('M');
-     			$scope.sexoMasculino = true;
-     		}
-     	}
-     	
-    	$scope.filtros = function(participante) {
-    		var cidadeCorrespondente = $scope.cidadesSelecionadas.some( function(i) {
-    			return i === participante.cidade;
-    		});
-    		
-    		
-    		var nomeCorrespondente = $scope.nomeFiltro == '' || participante.nome.toLowerCase().includes($scope.nomeFiltro.toLowerCase());
-    		
-    		var sexoCorrespondente = $scope.sexos.some( function(i) {
-    			return i === participante.sexo;
-    		});
-    		
-    		return cidadeCorrespondente && nomeCorrespondente && sexoCorrespondente;
-    	}
+   	$scope.filtros = function(participante) {
+   		var cidadeCorrespondente = $scope.cidadesSelecionadas.some( function(i) {
+   			return i === participante.cidade;
+   		});
+   		
+   		
+   		var nomeCorrespondente = $scope.nomeFiltro == '' || participante.nome.toLowerCase().includes($scope.nomeFiltro.toLowerCase());
+   		
+   		var sexoCorrespondente = $scope.sexos.some( function(i) {
+   			return i === participante.sexo;
+   		});
+   		
+   		return cidadeCorrespondente && nomeCorrespondente && sexoCorrespondente;
+   	}
+   	
+   	
+   	
+   	$scope.save = function () {
+
+    	$http({
+    		method: 'POST',
+    		url: 'participantes',
+   			data: angular.toJson($scope.participantes),
+   	        headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+       		}
+    	}).then(function successCalback(response) {
+    		console.log(response.statusText);
+    	}, function errorCallback(response) {
+    		console.log(response);
+    	});
 
     }
+
     
   });
 
@@ -124,7 +135,11 @@
       </a>
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      
       <ul class="nav navbar-nav navbar-right">
+        <li >
+          <button class="btn btn-success navbar-btn" ng-click="save()">Salvar alterações</button>
+        </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuário Logado <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -199,13 +214,41 @@
       <div class="tabela">
         <table class="table">
           <thead>
+            <tr>
+              <td colspan="4"></td>
+              <td colspan="7">
+                <nav aria-label="Page navigation">
+                  <ul class="pagination">
+                    <li>
+                      <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">6</a></li>
+                    <li><a href="#">7</a></li>
+                    <li><a href="#">8</a></li>
+                    <li><a href="#">9</a></li>
+                    <li><a href="#">10</a></li>
+                    <li>
+                      <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </td>
+            </tr>
             <tr ng-repeat="p in participantes | limitTo:1">
               <th class="pos">Pos.</th>
               <th class="nome">Nome</th>
               <th class="cidade">Cidade</th>
               <th class="pontos">Pontos</th>
-              
-              <th ng-repeat="pt in p.pontos | orderBy:'seq'" class="dia">
+              <th ng-repeat="pt in p.pontos | orderBy:'seq' | limitTo: 7" class="dia">
                 {{pt.data}}
               </th>
               
@@ -217,8 +260,8 @@
               <td>{{p.nome}}</td>
               <td>{{p.cidade}}</td>
               <td>{{p.totalPontos}}</td>
-              <td ng-repeat="pt in p.pontos | orderBy:'seq'" >
-                <input type="text">
+              <td ng-repeat="pt in p.pontos | orderBy:'seq' | limitTo: 7" >
+                <input type="text" ng-model="pt.pontuacao">
               </td>
             </tr>
           
