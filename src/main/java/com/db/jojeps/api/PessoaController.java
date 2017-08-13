@@ -37,7 +37,7 @@ public class PessoaController {
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
 			Date inicio = sdf.parse("30/07/2017");
-			Date fim = sdf.parse("27/09/2017");
+			Date fim = sdf.parse("02/10/2017");
 			
 			while((st = br.readLine()) != null){
 				Date atual = inicio;

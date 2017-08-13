@@ -132,6 +132,10 @@ body {
 	text-align: center;
 }
 
+.home .pagination {
+	margin: 0px;
+}
+
 
 /* footer
 -------------------------------------------------- */
