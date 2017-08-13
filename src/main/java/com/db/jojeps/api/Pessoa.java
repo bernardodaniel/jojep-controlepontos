@@ -15,7 +15,7 @@ public class Pessoa {
 	public Integer posicao;
 	public String nome;
 	public String cidade;
-	public Double totalPontos;
+	private Double totalPontos;
 	public String sexo;
 	public String endereco;
 	public String email;
@@ -29,5 +29,15 @@ public class Pessoa {
 	public String toString() {
 		return nome + " - " + cidade + " - " + totalPontos;
 	}
+	
+	public Double getTotalPontos() {
+		return totalPontos;
+	}
+	
+	public void calculaTotalPontos() {
+		totalPontos = 0d;
+		pontos.forEach(p -> totalPontos += p.getPontuacao());
+	}
+	
 	
 }

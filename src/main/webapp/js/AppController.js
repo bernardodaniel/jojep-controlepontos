@@ -149,6 +149,9 @@
                 'Content-Type': 'application/json; charset=UTF-8'
        		}
     	}).then(function successCalback(response) {
+    		
+    		$scope.participantes = response.data;
+    		
     		$scope.salvoComSucesso = true;
     		$scope.emProcessamento = false;
     	}, function errorCallback(response) {

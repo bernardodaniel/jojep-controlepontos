@@ -63,8 +63,8 @@
                   <td>
                     <p>{{p.nome}}</p>
                     <p class="cidade">{{p.cidade}}</p>
+                    <p class="cidade">{{p.totalPontos}} pontos</p>
                   </td>
-                  <td>{{p.totalPontos}}</td>
                 </tr>
               </tbody>
             </table>
@@ -79,7 +79,7 @@
           </div>
           <div class="panel-body">
             <ul class="list-unstyled">
-              <li ng-repeat="c in cidades | orderBy:'nome'">
+              <li ng-repeat="c in cidades | orderBy:'toString()'">
                 <input type="checkbox" checklist-model="cidadesSelecionadas" checklist-value="c"> {{c}} 
               </li>
             </ul>

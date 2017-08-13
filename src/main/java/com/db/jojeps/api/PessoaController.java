@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -93,14 +95,18 @@ public class PessoaController {
 	
 	@GetMapping("/participantes")
 	public List<Pessoa> getParticipantes() {
-		return pessoaRepo.findAll();
+		Order orderTotalPontos = new Order(Sort.Direction.DESC, "TotalPontos");
+		Order orderNome = new Order(Sort.Direction.ASC, "Nome");
+		
+		return pessoaRepo.findAll(new Sort(orderTotalPontos, orderNome));
 	}
 	
 	@PostMapping(value = "/participantes")
 	@ResponseBody
-	public ResponseEntity<Pessoa> save(@RequestBody List<Pessoa> pessoas) {
+	public List<Pessoa> save(@RequestBody List<Pessoa> pessoas) {
+		pessoas.forEach(p -> p.calculaTotalPontos());
 		pessoaRepo.save(pessoas);
-		return  new ResponseEntity<Pessoa>(HttpStatus.OK);
+		return getParticipantes();
 	}
 
 	
