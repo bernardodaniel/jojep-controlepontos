@@ -136,6 +136,7 @@
    	
    	$scope.save = function () {
    		
+   		$scope.salvoComSucesso = false;
    		$scope.emProcessamento = true;
 
    		console.log(angular.toJson($scope.participantes));
@@ -149,6 +150,7 @@
        		}
     	}).then(function successCalback(response) {
     		$scope.salvoComSucesso = true;
+    		$scope.emProcessamento = false;
     	}, function errorCallback(response) {
     		console.log(response);
     	});

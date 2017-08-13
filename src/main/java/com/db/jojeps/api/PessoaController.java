@@ -6,12 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -97,9 +98,9 @@ public class PessoaController {
 	
 	@PostMapping(value = "/participantes")
 	@ResponseBody
-	public String save(@RequestBody List<Pessoa> pessoas) {
+	public ResponseEntity<Pessoa> save(@RequestBody List<Pessoa> pessoas) {
 		pessoaRepo.save(pessoas);
-		return "ok";
+		return  new ResponseEntity<Pessoa>(HttpStatus.OK);
 	}
 
 	

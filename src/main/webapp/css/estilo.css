@@ -136,6 +136,14 @@ body {
 	margin: 0px;
 }
 
+.home td p {
+  white-space: nowrap;
+  max-width: 230px;                   
+  overflow: hidden;              /* "overflow" value must be different from "visible" */ 
+  text-overflow:    ellipsis;
+  margin: 0px;
+}
+
 
 /* footer
 -------------------------------------------------- */
