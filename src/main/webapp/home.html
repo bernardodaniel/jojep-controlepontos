@@ -1,6 +1,7 @@
 <head>
   <meta charset="utf-8">
-  </head>
+</head>
+<div ng-show="authenticated">
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -13,16 +14,16 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a ng-show="emProcessamento">Em processamento...</a>
-          <a ng-show="salvoComSucesso">Salvo com Sucesso</a>
+          <a ng-show="controller.emProcessamento">Em processamento...</a>
+          <a ng-show="controller.salvoComSucesso">Salvo com Sucesso</a>
         </li>
         <li >
           <button class="btn btn-success navbar-btn" ng-click="controller.save()">Salvar alterações</button>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuário Logado <span class="caret"></span></a>
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuário Logado <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Sair</a></li>
+            <li><a href="" ng-click="controller.logout()">Sair</a></li>
           </ul>
         </li>
       </ul>
@@ -139,5 +140,8 @@
       </div>
     </div>
   </div>
-
+</div>
+</div>
+<div  ng-show="!authenticated">
+    <p>Acesse o sistema com seu login e senha</p>
 </div>

@@ -14,14 +14,12 @@ angular.module('app', ['ngRoute'])
 	  $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 	  
   }) 
-  .controller('home', function( $http ) {
+  .controller('home', function( $rootScope, $http, $location ) {
 	
 	  var self = this;
 	  
-	  $http({
-    		method: 'GET',
-    		url: 'participantes'
-    	}).then(function successCalback(response) {
+	  $http.get('/participantes')
+	  	.then(function successCalback(response) {
     		self.participantes = response.data;
     		
     	   	self.cidades = [];
@@ -39,8 +37,6 @@ angular.module('app', ['ngRoute'])
         	    self.cidadesSelecionadas.push(cidade);
         	  }
         	}
-    	}, function errorCallback(response) {
-    		console.log(response.statusText);
     	});
 	  
 	  self.nomeFiltro = '';
@@ -143,8 +139,61 @@ angular.module('app', ['ngRoute'])
      		console.log(response);
      	});
   
-     }
+       }
+    	
+    	self.logout = function() {
+		  $http.post('logout', {}).finally(function() {
+			  
+			  debugger;
+			  
+		    $rootScope.authenticated = false;
+		    $location.path("/login");
+		  });
+		}
 	  
 	  
   })
-  .controller('navigation', function() {});
+  .controller('navigation', function($rootScope, $http, $location) {
+	  
+	  var self = this;
+	  
+	  var authenticate = function(credentials, callback) {
+
+	    var headers = credentials ? {authorization : "Basic "
+	        + btoa(credentials.username + ":" + credentials.password)
+	    } : {};
+
+	    $http.get('/user', {headers : headers}).then(function(response) {
+	      if (response.data.name) {
+	        $rootScope.authenticated = true;
+	      } else {
+	        $rootScope.authenticated = false;
+	      }
+	      callback && callback();
+	    }, function(response) {
+		  
+		  
+	      self.error = false;
+	      $location.path("/login");
+	      $rootScope.authenticated = false;
+	      callback && callback();
+	    });
+
+	}
+
+	authenticate();
+	self.credentials = {};
+	
+	self.login = function() {
+	    authenticate(self.credentials, function() {
+	      if ($rootScope.authenticated) {
+	        $location.path("/");
+	        self.error = false;
+	      } else {
+	        $location.path("/login");
+	        self.error = true;
+	      }
+	    });
+	};
+	
+  });
