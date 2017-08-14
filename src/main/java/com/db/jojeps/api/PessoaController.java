@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -99,6 +100,14 @@ public class PessoaController {
 		Order orderNome = new Order(Sort.Direction.ASC, "Nome");
 		
 		return pessoaRepo.findAll(new Sort(orderTotalPontos, orderNome));
+	}
+	
+	@PostMapping("/participantesporcidade")
+	public List<Pessoa> getParticipantes(@RequestBody  String cidade) {
+//		Order orderTotalPontos = new Order(Sort.Direction.DESC, "TotalPontos");
+//		Order orderNome = new Order(Sort.Direction.ASC, "Nome");
+		
+		return pessoaRepo.findByCidade(cidade);
 	}
 	
 	@PostMapping(value = "/participantes")

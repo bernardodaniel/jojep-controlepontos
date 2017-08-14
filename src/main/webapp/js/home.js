@@ -1,7 +1,7 @@
 angular.module('app', ['ngRoute'])
   .config(function($routeProvider, $httpProvider) {
 	  
-	  $routeProvider.when('/', {
+	  $routeProvider.when('/admin', {
 	      templateUrl : 'home.html',
 	      controller : 'home',
 	      controllerAs: 'controller'
@@ -18,7 +18,16 @@ angular.module('app', ['ngRoute'])
 	
 	  var self = this;
 	  
-	  $http.get('/participantes')
+	  console.log($rootScope.usuario.cidade);
+	  
+	  $http({
+   		method: 'POST',
+ 		url: '/participantesporcidade',
+			data: $rootScope.usuario.cidade,
+	        headers: {
+             'Content-Type': 'application/json; charset=UTF-8'
+    		}
+	  	})
 	  	.then(function successCalback(response) {
     		self.participantes = response.data;
     		
@@ -164,8 +173,14 @@ angular.module('app', ['ngRoute'])
 	    } : {};
 
 	    $http.get('/user', {headers : headers}).then(function(response) {
+
 	      if (response.data.name) {
 	        $rootScope.authenticated = true;
+	        
+	        $rootScope.usuario = {};
+	        $rootScope.usuario.nome = response.data.name;
+	        $rootScope.usuario.cidade = response.data.authorities[0].authority.substring(5);
+	        
 	      } else {
 	        $rootScope.authenticated = false;
 	      }
@@ -187,7 +202,7 @@ angular.module('app', ['ngRoute'])
 	self.login = function() {
 	    authenticate(self.credentials, function() {
 	      if ($rootScope.authenticated) {
-	        $location.path("/");
+	        $location.path("/admin");
 	        self.error = false;
 	      } else {
 	        $location.path("/login");
