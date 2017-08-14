@@ -46,60 +46,7 @@ angular.module('app', ['ngRoute'])
         	  }
         	}
     	});
-	  
-	  self.nomeFiltro = '';
-      self.sexoFeminino = true;
-      self.sexoMasculino = true;
-      self.sexos = ['M', 'F'];
-   	
-      self.mulheresBtnClick = function() {
-    	 debugger;
-    	 
-    		var contem = self.sexos.some( function(i) {
-   			return i === 'F';
-   		});
-    		
-    		if (contem) {
-    			self.sexos.splice(self.sexos.indexOf('F'), 1);
-    			self.sexoFeminino = false;
-    		} else {
-    			self.sexos.push('F');
-    			self.sexoFeminino = true;
-    		}
-    		
-    	}
-   	
-    	self.homensBtnClick = function() {
-    		var contem = self.sexos.some( function(i) {
-   			return i === 'M';
-   		});
-    		
-    		if (contem) {
-    			self.sexos.splice(self.sexos.indexOf('M'), 1);
-    			self.sexoMasculino = false;
-    		} else {
-    			self.sexos.push('M');
-    			self.sexoMasculino = true;
-    		}
-    	}
-     	
-    	self.filtros = function(participante) {
-    		debugger;
-    		
-    		var cidadeCorrespondente = self.cidadesSelecionadas.some( function(i) {
-    			return i === participante.cidade;
-    		});
-    		
-    		
-    		var nomeCorrespondente = self.nomeFiltro == '' || participante.nome.toLowerCase().includes(self.nomeFiltro.toLowerCase());
-    		
-    		var sexoCorrespondente = self.sexos.some( function(i) {
-    			return i === participante.sexo;
-    		});
-    		
-    		return cidadeCorrespondente && nomeCorrespondente && sexoCorrespondente;
-    	}
-    	
+
     	self.semana = 0;
     	self.semanas = [
     		["30/07", "31/07", "01/08", "02/08", "03/08", "04/08", "05/08"],
@@ -155,13 +102,62 @@ angular.module('app', ['ngRoute'])
     	
     	self.logout = function() {
 		  $http.post('logout', {}).finally(function() {
-			  
-			  debugger;
-			  
 		    $rootScope.authenticated = false;
 		    $location.path("/login");
 		  });
 		}
+    	
+    	
+    	self.nomeFiltro = '';
+        self.sexoFeminino = true;
+        self.sexoMasculino = true;
+        self.sexos = ['M', 'F'];
+     	
+        self.mulheresBtnClick = function() {
+      	  var contem = self.sexos.some( function(i) {
+     			return i === 'F';
+     		});
+      		
+      		if (contem) {
+      			self.sexos.splice(self.sexos.indexOf('F'), 1);
+      			self.sexoFeminino = false;
+      		} else {
+      			self.sexos.push('F');
+      			self.sexoFeminino = true;
+      		}
+      		
+      	}
+     	
+      	self.homensBtnClick = function() {
+      		var contem = self.sexos.some( function(i) {
+     			return i === 'M';
+     		});
+      		
+      		if (contem) {
+      			self.sexos.splice(self.sexos.indexOf('M'), 1);
+      			self.sexoMasculino = false;
+      		} else {
+      			self.sexos.push('M');
+      			self.sexoMasculino = true;
+      		}
+      	}
+       	
+      	self.filtros = function(participante) {
+      		debugger;
+      		
+      		var cidadeCorrespondente = self.cidadesSelecionadas.some( function(i) {
+      			return i === participante.cidade;
+      		});
+      		
+      		
+      		var nomeCorrespondente = self.nomeFiltro == '' || participante.nome.toLowerCase().includes(self.nomeFiltro.toLowerCase());
+      		
+      		var sexoCorrespondente = self.sexos.some( function(i) {
+      			return i === participante.sexo;
+      		});
+      		
+      		return cidadeCorrespondente && nomeCorrespondente && sexoCorrespondente;
+      	}
 	  
 	  
   })

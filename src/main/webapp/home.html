@@ -76,11 +76,11 @@
       <div class="filtros">
         <div class="col-sm-3">
           <div class="btn-group btn-group-justified" role="group" aria-label="...">
-            <a href="#" class="btn btn-sq-lg" ng-class="{'btn-danger': controller.sexoFeminino, 'btn-default': controller.sexo != 'F'}" id="mulheresBtn" ng-click="controller.mulheresBtnClick()">
+            <a href="" class="btn btn-sq-lg" ng-class="{'btn-danger': controller.sexoFeminino, 'btn-default': !controller.sexoFeminino}" id="mulheresBtn" ng-click="controller.mulheresBtnClick()">
               <i class="fa fa-venus fa-2x"></i><br/><br/>
               Mulheres
             </a>
-            <a href="#" class="btn btn-sq-lg" ng-class="{'btn-primary': controller.sexoMasculino, 'btn-default': controller.sexo != 'M'}" id="homensBtn" ng-click="controller.homensBtnClick()">
+            <a href="" class="btn btn-sq-lg" ng-class="{'btn-primary': controller.sexoMasculino, 'btn-default': !controller.sexoMasculino}" id="homensBtn" ng-click="controller.homensBtnClick()">
               <i class="fa fa-mars fa-2x"></i><br/><br/>
               Homens
             </a>
@@ -125,7 +125,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="p in controller.participantes | filter:filtros">
+            <tr ng-repeat="p in controller.participantes | filter:controller.filtros">
               <td>{{$index + 1}}</td>
               <td><p>{{p.nome}}<p></td>
               <td>{{p.cidade}}</td>
