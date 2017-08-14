@@ -33,7 +33,7 @@
 <div class="home">
   
   <div class="row">
-    <div class="esquerdo col-sm-3" ng-show="false">
+    <div class="esquerdo col-sm-3" ng-show="controller.isAdmin">
       <div class="top3">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -64,7 +64,7 @@
           <div class="panel-body">
             <ul class="list-unstyled">
               <li ng-repeat="c in controller.cidades | orderBy:'toString()'">
-                <input type="checkbox" checklist-model="controller.cidadesSelecionadas" checklist-value="c"> {{c}} 
+                <input type="checkbox" ng-model="c.selecionado"> {{c.nome}} 
               </li>
             </ul>
           </div>
@@ -72,15 +72,15 @@
       </div>    
     </div>
     
-    <div class="conteudo col-sm-12">
+    <div class="conteudo" ng-class="{'col-sm-9' : controller.isAdmin, 'col-sm-12' : !controller.isAdmin }">
       <div class="filtros">
         <div class="col-sm-3">
           <div class="btn-group btn-group-justified" role="group" aria-label="...">
-            <a href="#" class="btn btn-sq-lg" ng-class="{'btn-danger': controller.sexoFeminino, 'btn-default': controller.sexo != 'F'}" id="mulheresBtn" ng-click="controller.mulheresBtnClick()">
+            <a href="" class="btn btn-sq-lg" ng-class="{'btn-danger': controller.sexoFeminino, 'btn-default': !controller.sexoFeminino}" id="mulheresBtn" ng-click="controller.mulheresBtnClick()">
               <i class="fa fa-venus fa-2x"></i><br/><br/>
               Mulheres
             </a>
-            <a href="#" class="btn btn-sq-lg" ng-class="{'btn-primary': controller.sexoMasculino, 'btn-default': controller.sexo != 'M'}" id="homensBtn" ng-click="controller.homensBtnClick()">
+            <a href="" class="btn btn-sq-lg" ng-class="{'btn-primary': controller.sexoMasculino, 'btn-default': !controller.sexoMasculino}" id="homensBtn" ng-click="controller.homensBtnClick()">
               <i class="fa fa-mars fa-2x"></i><br/><br/>
               Homens
             </a>
@@ -102,7 +102,7 @@
                 <span aria-hidden="true">&laquo;</span>
               </button>
             </li>
-            <li><button class="btn btn-link">Semana {{semana+1}}</button></li>
+            <li><button class="btn btn-link">Semana {{controller.semana+1}}</button></li>
             <li>
               <button class="btn btn-link" ng-click="controller.proximaSemana()" ng-disabled="controller.semana === 8">
                 <span aria-hidden="true">&raquo;</span>
@@ -125,7 +125,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="p in controller.participantes | filter:filtros">
+            <tr ng-repeat="p in controller.participantes | filter:controller.filtros">
               <td>{{$index + 1}}</td>
               <td><p>{{p.nome}}<p></td>
               <td>{{p.cidade}}</td>

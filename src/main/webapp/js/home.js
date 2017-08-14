@@ -17,13 +17,12 @@ angular.module('app', ['ngRoute'])
   .controller('home', function( $rootScope, $http, $location ) {
 	
 	  var self = this;
-	  
-	  console.log($rootScope.usuario.cidade);
+	  self.isAdmin = $rootScope.usuario.nome == 'admin';
 	  
 	  $http({
-   		method: 'POST',
- 		url: '/participantesporcidade',
-			data: $rootScope.usuario.cidade,
+   		method: self.isAdmin ? 'GET' : 'POST',
+ 		url: self.isAdmin ? '/participantes' : '/participantesporcidade',
+			data: self.isAdmin ? [] : $rootScope.usuario.cidade,
 	        headers: {
              'Content-Type': 'application/json; charset=UTF-8'
     		}
@@ -31,72 +30,19 @@ angular.module('app', ['ngRoute'])
 	  	.then(function successCalback(response) {
     		self.participantes = response.data;
     		
-    	   	self.cidades = [];
-    	   	self.cidadesSelecionadas = [];
-        	
-        	for (var i=0, len = self.participantes.length; i < len; i++) {
-        	  var cidade = self.participantes[i].cidade;
-        	  
-        	  var contemCidade = self.cidades.some(function(c) {
-        		  return c === cidade;
-        	  });
-        	  
-        	  if (!contemCidade) {
-        	    self.cidades.push(cidade);
-        	    self.cidadesSelecionadas.push(cidade);
-        	  }
-        	}
+    	   	let cidadesRepetidas = self.participantes.map( p => p.cidade );
+    	   	let cidadesNomes = cidadesRepetidas.reduce((x, y) => x.includes(y) ? x : [...x, y], []);
+    	   	
+    	   	self.cidades = cidadesNomes.map((c) => {
+    	   		return {
+    	   			nome: c,
+    	   			selecionado: true
+    	   		}
+    	   	});
+    	   	
+    	   	
     	});
-	  
-	  self.nomeFiltro = '';
-      self.sexoFeminino = true;
-      self.sexoMasculino = true;
-      self.sexos = ['M', 'F'];
-   	
-      self.mulheresBtnClick = function() {
-    		var contem = self.sexos.some( function(i) {
-   			return i === 'F';
-   		});
-    		
-    		if (contem) {
-    			self.sexos.splice(self.sexos.indexOf('F'), 1);
-    			self.sexoFeminino = false;
-    		} else {
-    			self.sexos.push('F');
-    			self.sexoFeminino = true;
-    		}
-    		
-    	}
-   	
-    	self.homensBtnClick = function() {
-    		var contem = self.sexos.some( function(i) {
-   			return i === 'M';
-   		});
-    		
-    		if (contem) {
-    			self.sexos.splice(self.sexos.indexOf('M'), 1);
-    			self.sexoMasculino = false;
-    		} else {
-    			self.sexos.push('M');
-    			self.sexoMasculino = true;
-    		}
-    	}
-     	
-    	self.filtros = function(participante) {
-    		var cidadeCorrespondente = self.cidadesSelecionadas.some( function(i) {
-    			return i === participante.cidade;
-    		});
-    		
-    		
-    		var nomeCorrespondente = self.nomeFiltro == '' || participante.nome.toLowerCase().includes(self.nomeFiltro.toLowerCase());
-    		
-    		var sexoCorrespondente = self.sexos.some( function(i) {
-    			return i === participante.sexo;
-    		});
-    		
-    		return cidadeCorrespondente && nomeCorrespondente && sexoCorrespondente;
-    	}
-    	
+
     	self.semana = 0;
     	self.semanas = [
     		["30/07", "31/07", "01/08", "02/08", "03/08", "04/08", "05/08"],
@@ -152,13 +98,63 @@ angular.module('app', ['ngRoute'])
     	
     	self.logout = function() {
 		  $http.post('logout', {}).finally(function() {
-			  
-			  debugger;
-			  
 		    $rootScope.authenticated = false;
 		    $location.path("/login");
 		  });
 		}
+    	
+    	
+    	self.nomeFiltro = '';
+        self.sexoFeminino = true;
+        self.sexoMasculino = true;
+        self.sexos = ['M', 'F'];
+     	
+        self.mulheresBtnClick = function() {
+      	  let contem = self.sexos.some( function(i) {
+     			return i === 'F';
+     		});
+      		
+      		if (contem) {
+      			self.sexos.splice(self.sexos.indexOf('F'), 1);
+      			self.sexoFeminino = false;
+      		} else {
+      			self.sexos.push('F');
+      			self.sexoFeminino = true;
+      		}
+      		
+      	}
+     	
+      	self.homensBtnClick = function() {
+      		let contem = self.sexos.some( function(i) {
+     			return i === 'M';
+     		});
+      		
+      		if (contem) {
+      			self.sexos.splice(self.sexos.indexOf('M'), 1);
+      			self.sexoMasculino = false;
+      		} else {
+      			self.sexos.push('M');
+      			self.sexoMasculino = true;
+      		}
+      	}
+       	
+      	self.filtros = function(participante) {
+
+      		let cidadesSelecionadas = self.cidades.filter(c => c.selecionado);
+
+      		let cidadeCorrespondente = cidadesSelecionadas.some( function(cidade) {
+      			return cidade.nome === participante.cidade;
+      		});
+      		
+      		
+      		let nomeCorrespondente = self.nomeFiltro == '' || participante.nome.toLowerCase().includes(self.nomeFiltro.toLowerCase());
+      		
+      		let sexoCorrespondente = self.sexos.some( function(i) {
+      			return i === participante.sexo;
+      		});
+      		
+      		return cidadeCorrespondente && nomeCorrespondente && sexoCorrespondente;
+      	}
 	  
 	  
   })
@@ -166,9 +162,9 @@ angular.module('app', ['ngRoute'])
 	  
 	  var self = this;
 	  
-	  var authenticate = function(credentials, callback) {
+	  let authenticate = function(credentials, callback) {
 
-	    var headers = credentials ? {authorization : "Basic "
+	    let headers = credentials ? {authorization : "Basic "
 	        + btoa(credentials.username + ":" + credentials.password)
 	    } : {};
 
