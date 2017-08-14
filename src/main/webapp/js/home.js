@@ -17,13 +17,12 @@ angular.module('app', ['ngRoute'])
   .controller('home', function( $rootScope, $http, $location ) {
 	
 	  var self = this;
-	  
-	  console.log($rootScope.usuario.cidade);
+	  self.isAdmin = $rootScope.usuario.nome == 'admin';
 	  
 	  $http({
-   		method: 'POST',
- 		url: '/participantesporcidade',
-			data: $rootScope.usuario.cidade,
+   		method: self.isAdmin ? 'GET' : 'POST',
+ 		url: self.isAdmin ? '/participantes' : '/participantesporcidade',
+			data: self.isAdmin ? [] : $rootScope.usuario.cidade,
 	        headers: {
              'Content-Type': 'application/json; charset=UTF-8'
     		}
@@ -54,6 +53,8 @@ angular.module('app', ['ngRoute'])
       self.sexos = ['M', 'F'];
    	
       self.mulheresBtnClick = function() {
+    	 debugger;
+    	 
     		var contem = self.sexos.some( function(i) {
    			return i === 'F';
    		});
@@ -83,6 +84,8 @@ angular.module('app', ['ngRoute'])
     	}
      	
     	self.filtros = function(participante) {
+    		debugger;
+    		
     		var cidadeCorrespondente = self.cidadesSelecionadas.some( function(i) {
     			return i === participante.cidade;
     		});
