@@ -30,21 +30,17 @@ angular.module('app', ['ngRoute'])
 	  	.then(function successCalback(response) {
     		self.participantes = response.data;
     		
-    	   	self.cidades = [];
-    	   	self.cidadesSelecionadas = [];
-        	
-        	for (var i=0, len = self.participantes.length; i < len; i++) {
-        	  var cidade = self.participantes[i].cidade;
-        	  
-        	  var contemCidade = self.cidades.some(function(c) {
-        		  return c === cidade;
-        	  });
-        	  
-        	  if (!contemCidade) {
-        	    self.cidades.push(cidade);
-        	    self.cidadesSelecionadas.push(cidade);
-        	  }
-        	}
+    	   	let cidadesRepetidas = self.participantes.map( p => p.cidade );
+    	   	let cidadesNomes = cidadesRepetidas.reduce((x, y) => x.includes(y) ? x : [...x, y], []);
+    	   	
+    	   	self.cidades = cidadesNomes.map((c) => {
+    	   		return {
+    	   			nome: c,
+    	   			selecionado: true
+    	   		}
+    	   	});
+    	   	
+    	   	
     	});
 
     	self.semana = 0;
@@ -114,7 +110,7 @@ angular.module('app', ['ngRoute'])
         self.sexos = ['M', 'F'];
      	
         self.mulheresBtnClick = function() {
-      	  var contem = self.sexos.some( function(i) {
+      	  let contem = self.sexos.some( function(i) {
      			return i === 'F';
      		});
       		
@@ -129,7 +125,7 @@ angular.module('app', ['ngRoute'])
       	}
      	
       	self.homensBtnClick = function() {
-      		var contem = self.sexos.some( function(i) {
+      		let contem = self.sexos.some( function(i) {
      			return i === 'M';
      		});
       		
@@ -143,16 +139,17 @@ angular.module('app', ['ngRoute'])
       	}
        	
       	self.filtros = function(participante) {
-      		debugger;
-      		
-      		var cidadeCorrespondente = self.cidadesSelecionadas.some( function(i) {
-      			return i === participante.cidade;
+
+      		let cidadesSelecionadas = self.cidades.filter(c => c.selecionado);
+
+      		let cidadeCorrespondente = cidadesSelecionadas.some( function(cidade) {
+      			return cidade.nome === participante.cidade;
       		});
       		
       		
-      		var nomeCorrespondente = self.nomeFiltro == '' || participante.nome.toLowerCase().includes(self.nomeFiltro.toLowerCase());
+      		let nomeCorrespondente = self.nomeFiltro == '' || participante.nome.toLowerCase().includes(self.nomeFiltro.toLowerCase());
       		
-      		var sexoCorrespondente = self.sexos.some( function(i) {
+      		let sexoCorrespondente = self.sexos.some( function(i) {
       			return i === participante.sexo;
       		});
       		
@@ -165,9 +162,9 @@ angular.module('app', ['ngRoute'])
 	  
 	  var self = this;
 	  
-	  var authenticate = function(credentials, callback) {
+	  let authenticate = function(credentials, callback) {
 
-	    var headers = credentials ? {authorization : "Basic "
+	    let headers = credentials ? {authorization : "Basic "
 	        + btoa(credentials.username + ":" + credentials.password)
 	    } : {};
 
