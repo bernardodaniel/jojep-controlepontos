@@ -1,23 +1,6 @@
-<!DOCTYPE html>
-<html>
 <head>
-<meta charset="UTF-8">
-<title>JOJEPS - FACIAP JOVENS</title>
-<link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
-
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script type="text/javascript" src="js/checklist-model.js"></script>
-<script type="text/javascript" src="js/AppController.js"></script>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/estilo.css">
-<link rel="icon" type="image/png" href="img/favicon.jpg">
-</head>
-
-<body ng-app="app" ng-controller="AppController">
-
+  <meta charset="utf-8">
+  </head>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -34,7 +17,7 @@
           <a ng-show="salvoComSucesso">Salvo com Sucesso</a>
         </li>
         <li >
-          <button class="btn btn-success navbar-btn" ng-click="save()">Salvar alterações</button>
+          <button class="btn btn-success navbar-btn" ng-click="controller.save()">Salvar alterações</button>
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuário Logado <span class="caret"></span></a>
@@ -58,7 +41,7 @@
           <div class="panel-body">
             <table class="table ranking">
               <tbody>
-                <tr ng-repeat="p in participantes|limitTo:3" ng-class="{'first': $index+1 == 1, 'second': $index+1 == 2, 'third': $index+1 == 3}" class="rank">
+                <tr ng-repeat="p in controller.participantes|limitTo:3" ng-class="{'first': $index+1 == 1, 'second': $index+1 == 2, 'third': $index+1 == 3}" class="rank">
                   <td>{{$index + 1}}</td>
                   <td>
                     <p>{{p.nome}}</p>
@@ -79,8 +62,8 @@
           </div>
           <div class="panel-body">
             <ul class="list-unstyled">
-              <li ng-repeat="c in cidades | orderBy:'toString()'">
-                <input type="checkbox" checklist-model="cidadesSelecionadas" checklist-value="c"> {{c}} 
+              <li ng-repeat="c in controller.cidades | orderBy:'toString()'">
+                <input type="checkbox" checklist-model="controller.cidadesSelecionadas" checklist-value="c"> {{c}} 
               </li>
             </ul>
           </div>
@@ -92,11 +75,11 @@
       <div class="filtros">
         <div class="col-sm-3">
           <div class="btn-group btn-group-justified" role="group" aria-label="...">
-            <a href="#" class="btn btn-sq-lg" ng-class="{'btn-danger': sexoFeminino, 'btn-default': sexo != 'F'}" id="mulheresBtn" ng-click="mulheresBtnClick()">
+            <a href="#" class="btn btn-sq-lg" ng-class="{'btn-danger': controller.sexoFeminino, 'btn-default': controller.sexo != 'F'}" id="mulheresBtn" ng-click="controller.mulheresBtnClick()">
               <i class="fa fa-venus fa-2x"></i><br/><br/>
               Mulheres
             </a>
-            <a href="#" class="btn btn-sq-lg" ng-class="{'btn-primary': sexoMasculino, 'btn-default': sexo != 'M'}" id="homensBtn" ng-click="homensBtnClick()">
+            <a href="#" class="btn btn-sq-lg" ng-class="{'btn-primary': controller.sexoMasculino, 'btn-default': controller.sexo != 'M'}" id="homensBtn" ng-click="controller.homensBtnClick()">
               <i class="fa fa-mars fa-2x"></i><br/><br/>
               Homens
             </a>
@@ -105,7 +88,7 @@
         </div>
         <div class="col-sm-9">
           <div class="col-md-12">
-               <input type="text" ng-model="nomeFiltro" class="form-control input-lg" placeholder="Pesquisa por nome..." />
+               <input type="text" ng-model="controller.nomeFiltro" class="form-control input-lg" placeholder="Pesquisa por nome..." />
            </div>
         </div>
       </div>
@@ -114,13 +97,13 @@
         <nav aria-label="Page navigation">
           <ul class="pagination pull-right">
             <li>
-              <button class="btn btn-link" ng-click="semanaAnterior()" ng-disabled="semana === 0">
+              <button class="btn btn-link" ng-click="controller.semanaAnterior()" ng-disabled="controller.semana === 0">
                 <span aria-hidden="true">&laquo;</span>
               </button>
             </li>
             <li><button class="btn btn-link">Semana {{semana+1}}</button></li>
             <li>
-              <button class="btn btn-link" ng-click="proximaSemana()" ng-disabled="semana === 8">
+              <button class="btn btn-link" ng-click="controller.proximaSemana()" ng-disabled="controller.semana === 8">
                 <span aria-hidden="true">&raquo;</span>
               </button>
             </li>
@@ -129,24 +112,24 @@
                 
         <table class="table">
           <thead>
-            <tr ng-repeat="p in participantes | limitTo:1">
+            <tr ng-repeat="p in controller.participantes | limitTo:1">
               <th class="pos">Pos.</th>
               <th class="nome">Nome</th>
               <th class="cidade">Cidade</th>
               <th class="pontos">Pontos</th>
-              <th ng-repeat="pt in p.pontos | orderBy:'seq'" class="dia" ng-show="exibirColuna( pt.data )">
+              <th ng-repeat="pt in p.pontos | orderBy:'seq'" class="dia" ng-show="controller.exibirColuna( pt.data )">
                 {{pt.data}}
               </th>
               
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="p in participantes | filter:filtros">
+            <tr ng-repeat="p in controller.participantes | filter:filtros">
               <td>{{$index + 1}}</td>
               <td><p>{{p.nome}}<p></td>
               <td>{{p.cidade}}</td>
               <td>{{p.totalPontos}}</td>
-              <td ng-repeat="pt in p.pontos | orderBy:'seq'" ng-show="exibirColuna( pt.data )">
+              <td ng-repeat="pt in p.pontos | orderBy:'seq'" ng-show="controller.exibirColuna( pt.data )">
                 <input type="text" ng-model="pt.pontuacao">
               </td>
             </tr>
@@ -156,22 +139,5 @@
       </div>
     </div>
   </div>
-  
-  <footer class="footer center">
-    <div class="outer">
-      <div class="inner">
-        <img alt="Se7 Consultoria" src="img/se7logo.jpg">
-        <div class="se7-text text-center">
-          Set Consultoria, Soluções <br/>& Treinamentos Empresariais
-        </div>
-        <p class="contato">Silvio Carvalho - (44) 9 9970-6002 - <a href="http://www.setcons.com.br" target="blank">www.setcons.com.br</a></p>
-      </div>
-    </div>
-  </footer>
-  
-</div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-</body>
-</html>
+</div>
