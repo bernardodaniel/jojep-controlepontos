@@ -63,7 +63,7 @@
           </div>
           <div class="panel-body">
             <ul class="list-unstyled">
-              <li ng-repeat="c in controller.cidades | orderBy:'toString()'">
+              <li ng-repeat="c in controller.cidades | orderBy:'nome'">
                 <input type="checkbox" ng-model="c.selecionado"> {{c.nome}} 
               </li>
             </ul>
