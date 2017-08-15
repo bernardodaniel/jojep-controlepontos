@@ -55,14 +55,14 @@ public class PessoaResource {
 				
 				Pessoa p = new Pessoa();
 				
-				p.nome = colunas[0];
+				p.nome = colunas[0].trim();
 				p.sexo = colunas[1].substring(0, 1);
-				p.endereco = colunas[2];
-				p.cidade = colunas[3];
-				p.email = colunas[4];
-				p.celular = colunas[5];
-				p.telefone = colunas[6];
-				p.empresa = colunas[7];
+				p.endereco = colunas[2].trim();
+				p.cidade = colunas[3].trim();
+				p.email = colunas[4].trim();
+				p.celular = colunas[5].trim();
+				p.telefone = colunas[6].trim();
+				p.empresa = colunas[7].trim();
 				
 				int seq = 1;
 				

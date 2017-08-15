@@ -39,6 +39,9 @@ body {
 
 /* home
 -------------------------------------------------- */
+.home .uppercase {
+	text-transform: uppercase;
+}
 .home {
 	padding-left: 10px;
 	padding-right: 10px;
