@@ -1,4 +1,4 @@
-package com.db.jojeps.api;
+package com.db.jojeps.resource;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,22 +13,28 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.db.jojeps.api.model.Pessoa;
+import com.db.jojeps.api.model.Ponto;
+import com.db.jojeps.api.model.Usuario;
+import com.db.jojeps.api.repository.PessoaRepository;
+import com.db.jojeps.api.repository.UsuarioRepository;
+
 @RestController
-public class PessoaController {
+public class PessoaResource {
 
 	@Autowired
 	private PessoaRepository pessoaRepo;
 	
-	@PostMapping("/admin/import")
+	@Autowired
+	private UsuarioRepository usuarioRepo;
+	
+	@GetMapping("/admin/import")
 	public String importar() {
 		File file = new File("dados.csv");
 		
@@ -102,12 +108,10 @@ public class PessoaController {
 		return pessoaRepo.findAll(new Sort(orderTotalPontos, orderNome));
 	}
 	
-	@PostMapping("/participantesporcidade")
-	public List<Pessoa> getParticipantes(@RequestBody  String cidade) {
-//		Order orderTotalPontos = new Order(Sort.Direction.DESC, "TotalPontos");
-//		Order orderNome = new Order(Sort.Direction.ASC, "Nome");
-		
-		return pessoaRepo.findByCidade(cidade);
+	@PostMapping("/participantesporuser")
+	public List<Pessoa> getParticipantes(@RequestBody  String username) {
+		Usuario u = usuarioRepo.findByUsername(username);
+		return pessoaRepo.findByCidadeInOrderByTotalPontosDescNome(u.getCidades());
 	}
 	
 	@PostMapping(value = "/participantes")
@@ -115,7 +119,7 @@ public class PessoaController {
 	public List<Pessoa> save(@RequestBody List<Pessoa> pessoas) {
 		pessoas.forEach(p -> p.calculaTotalPontos());
 		pessoaRepo.save(pessoas);
-		return getParticipantes();
+		return pessoas;
 	}
 
 	

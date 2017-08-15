@@ -1,4 +1,4 @@
-package com.db.jojeps.api;
+package com.db.jojeps.api.model;
 
 public class Ponto {
 	

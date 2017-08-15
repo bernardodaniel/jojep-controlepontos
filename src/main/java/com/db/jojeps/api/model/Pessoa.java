@@ -1,4 +1,4 @@
-package com.db.jojeps.api;
+package com.db.jojeps.api.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,10 @@ public class Pessoa {
 	
 	public Double getTotalPontos() {
 		return totalPontos;
+	}
+	
+	public void setTotalPontos(Double totalPontos) {
+		this.totalPontos = totalPontos;
 	}
 	
 	public void calculaTotalPontos() {

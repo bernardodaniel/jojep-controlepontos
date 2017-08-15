@@ -17,12 +17,11 @@ angular.module('app', ['ngRoute'])
   .controller('home', function( $rootScope, $http, $location ) {
 	
 	  var self = this;
-	  self.isAdmin = $rootScope.usuario.nome == 'admin';
 	  
 	  $http({
-   		method: self.isAdmin ? 'GET' : 'POST',
- 		url: self.isAdmin ? '/participantes' : '/participantesporcidade',
-			data: self.isAdmin ? [] : $rootScope.usuario.cidade,
+   		method: 'POST',
+ 		url: '/participantesporuser',
+			data: $rootScope.usuario.nome,
 	        headers: {
              'Content-Type': 'application/json; charset=UTF-8'
     		}
@@ -86,10 +85,20 @@ angular.module('app', ['ngRoute'])
         		}
      	}).then(function successCalback(response) {
      		
-     		self.participantes = response.data;
-     		
-     		self.salvoComSucesso = true;
-     		self.emProcessamento = false;
+     		 $http({
+     	   		method: 'POST',
+     	 		url: '/participantesporuser',
+     				data: $rootScope.usuario.nome,
+     		        headers: {
+     	             'Content-Type': 'application/json; charset=UTF-8'
+     	    		}
+     		  	})
+     		  	.then(function successCalback(response) {
+     	    		self.participantes = response.data;
+     	    		self.salvoComSucesso = true;
+     	    		self.emProcessamento = false;
+     	    	});
+     		 
      	}, function errorCallback(response) {
      		console.log(response);
      	});
@@ -171,11 +180,12 @@ angular.module('app', ['ngRoute'])
 	    $http.get('/user', {headers : headers}).then(function(response) {
 
 	      if (response.data.name) {
+      	    let role = response.data.authorities[0].authority;
 	        $rootScope.authenticated = true;
 	        
 	        $rootScope.usuario = {};
 	        $rootScope.usuario.nome = response.data.name;
-	        $rootScope.usuario.cidade = response.data.authorities[0].authority.substring(5);
+	        $rootScope.usuario.isAdmin = role == 'su' || role == 'admin';
 	        
 	      } else {
 	        $rootScope.authenticated = false;
