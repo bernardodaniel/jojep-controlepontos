@@ -7,10 +7,15 @@ import java.io.IOException;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.db.jojeps.api.model.Credenciais;
 import com.db.jojeps.api.model.Papel;
 import com.db.jojeps.api.model.Usuario;
 import com.db.jojeps.api.repository.UsuarioRepository;
@@ -25,6 +30,25 @@ public class UsuarioResource {
 	public Principal user(Principal user) {
 		System.out.println( user );
 		return user;
+	}
+	
+	@PostMapping(value = "/alterarsenha", produces = MediaType.TEXT_PLAIN_VALUE)
+	public String alterarSenha(@RequestBody Credenciais credenciais) {
+		Usuario u = usuarioRepo.findByUsername(credenciais.usuario);
+		
+		if (!credenciais.senhaAtual.equals(u.getPassword())) {
+			throw new RuntimeException("A senha atual não é igual à senha cadastrada para o usuário");
+		}
+		
+		if (!credenciais.novaSenha.equals(credenciais.confirmeSenha)) {
+			throw new RuntimeException("A confirmação de senha não é igual à nova senha digitada");
+		}
+		
+		u.setPassword(credenciais.novaSenha);
+		
+		usuarioRepo.save(u);
+		
+		return "Senha alterada com sucesso";
 	}
 	
 	@GetMapping("/admin/import/user")

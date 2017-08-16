@@ -1,0 +1,87 @@
+<head>
+  <meta charset="utf-8">
+</head>
+<div ng-show="authenticated">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">
+        <img alt="JOJEPS - FACIAP JOVEM" src="img/jojeps-small.jpg" class="pull-left">
+        <span class="pull-right">Sistema de controle de pontos</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a ng-show="controller.emProcessamento">Em processamento...</a>
+          <a ng-show="controller.salvoComSucesso">Salvo com Sucesso</a>
+        </li>
+        <li >
+          <button class="btn btn-success navbar-btn" ng-click="controller.save()">Salvar alterações</button>
+        </li>
+        <li class="dropdown">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{usuario.nome}}<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#/senha" >Alterar Senha</a></li>
+            <li><a href="" ng-click="controller.logout()">Sair</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="home">
+  
+  <div class="container">
+    <div class="alert alert-danger" ng-show="controller.error">
+	    Não foi possível alterar a senha. Por favor, verifique se todos dados estão corretos e tente novamente.
+	</div>
+	<div class="alert alert-success" ng-show="controller.success">
+	    {{controller.mensagem}}
+	</div>
+	
+    <form class="form-horizontal" ng-submit="controller.salvarSenha()">
+		<fieldset>
+		
+		<legend>Alterar senha</legend>
+		
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="senhaAtual">Senha atual</label>
+		  <div class="col-md-4">
+		    <input id="senhaAtual" type="password" ng-model="controller.credentials.senhaAtual" placeholder="" class="form-control input-md" required="true">
+		  </div>
+		</div>
+		
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="novaSenha">Nova senha</label>
+		  <div class="col-md-4">
+		    <input id="novaSenha" type="password" ng-model="controller.credentials.novaSenha" placeholder="" class="form-control input-md" required="true">
+		  </div>
+		</div>
+		
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="confirmeSenha">Confirme nova senha</label>
+		  <div class="col-md-4">
+		    <input id="confirmeSenha" type="password" ng-model="controller.credentials.confirmeSenha" placeholder="" class="form-control input-md" required="true">
+		  </div>
+		</div>
+		
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="bCancel"></label>
+		  <div class="col-md-8">
+		    <button id="bCancel" class="btn btn-danger">Cancelar</button>
+		    <button id="bConfirme" class="btn btn-success">Confirmar</button>
+		  </div>
+		</div>
+		
+		</fieldset>
+		</form>
+  </div>
+</div>
+</div>
+
+<div  ng-show="!authenticated">
+    <p>Acesse o sistema com seu login e senha</p>
+</div>

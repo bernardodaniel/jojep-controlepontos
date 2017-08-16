@@ -9,6 +9,10 @@ angular.module('app', ['ngRoute'])
 	      templateUrl : 'login.html',
 	      controller : 'navigation',
 	      controllerAs: 'controller'
+	    }).when('/senha', {
+	      templateUrl : 'senha.html',
+	      controller : 'senha',
+	      controllerAs: 'controller'
 	    }).otherwise('/');
 	  
 	  $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
@@ -74,8 +78,6 @@ angular.module('app', ['ngRoute'])
     		self.salvoComSucesso = false;
     		self.emProcessamento = true;
   
-    		console.log(angular.toJson(self.participantes));
-    		
      	$http({
      		method: 'POST',
      		url: 'participantes',
@@ -192,8 +194,6 @@ angular.module('app', ['ngRoute'])
 	      }
 	      callback && callback();
 	    }, function(response) {
-		  
-		  
 	      self.error = false;
 	      $location.path("/login");
 	      $rootScope.authenticated = false;
@@ -216,5 +216,42 @@ angular.module('app', ['ngRoute'])
 	      }
 	    });
 	};
+	
+  })
+  .controller('senha', function($rootScope, $http, $location) {
+	  
+    var self = this;
+	  
+	self.credentials = {};
+	self.credentials.usuario = $rootScope.usuario.nome;
+	
+	self.salvarSenha = function() {
+	  $http({
+   	    method: 'POST',
+ 		url: '/alterarsenha',
+			data: angular.toJson(self.credentials),
+	        headers: {
+             'Content-Type': 'application/json; charset=UTF-8'
+    		}
+	  	})
+	  	.then(function successCalback(response) {
+    		self.success = true;
+	  		self.error = false;
+    		self.mensagem = response.data;
+    	}
+	  	,
+	  	function errorCalback(response) {
+    		self.success = false;
+	  		self.error = true;
+	  		console.log(response);
+    	});
+	};
+	
+	self.logout = function() {
+	  $http.post('logout', {}).finally(function() {
+	    $rootScope.authenticated = false;
+	    $location.path("/login");
+	  });
+	}
 	
   });
