@@ -60,7 +60,8 @@ angular.module('app', ['ngRoute'])
     		];
     	
     	self.exibirColuna = function(diaDaSemana) {
-    		return self.semanas[self.semana].some(elem => elem === diaDaSemana );
+    		debugger;
+    		return $rootScope.usuario.role != 'admin' && self.semanas[self.semana].some(elem => elem === diaDaSemana );
     	}
     	
     	self.proximaSemanaHabilitada = false;
@@ -188,6 +189,7 @@ angular.module('app', ['ngRoute'])
 	        $rootScope.usuario = {};
 	        $rootScope.usuario.nome = response.data.name;
 	        $rootScope.usuario.isAdmin = role == 'su' || role == 'admin';
+	        $rootScope.usuario.role = role;
 	        
 	      } else {
 	        $rootScope.authenticated = false;
