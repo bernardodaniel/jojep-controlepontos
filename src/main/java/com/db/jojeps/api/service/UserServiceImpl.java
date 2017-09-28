@@ -23,6 +23,9 @@ public class UserServiceImpl implements UserDetailsService {
 		if (usuario == null)
 			throw new UsernameNotFoundException("Usuário não encontrado: " + username);
 		
+		if (!usuario.isAccountNonExpired())
+			throw new UsernameNotFoundException("Sua conta expirou. Entre em contato com o administrador");
+		
 		return new User(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities());
 		
 	}

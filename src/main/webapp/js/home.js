@@ -60,7 +60,6 @@ angular.module('app', ['ngRoute'])
     		];
     	
     	self.exibirColuna = function(diaDaSemana) {
-    		debugger;
     		return $rootScope.usuario.role != 'admin' && self.semanas[self.semana].some(elem => elem === diaDaSemana );
     	}
     	

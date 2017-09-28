@@ -1,8 +1,11 @@
 package com.db.jojeps.api.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -20,6 +23,7 @@ public class Usuario implements UserDetails {
 	private String password;
 	private List<Papel> papeis = new ArrayList<>();
 	private List<String> cidades = new ArrayList<>();
+	private String expiraEm;
 
 	
 	public void setUsername(String username) {
@@ -56,9 +60,21 @@ public class Usuario implements UserDetails {
 	public String getUsername() {
 		return username;
 	}
+	
+	public String getExpiraEm() {
+		return expiraEm;
+	}
 
 	@Override
 	public boolean isAccountNonExpired() {
+		try {
+			Date expiraDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(getExpiraEm());
+			
+			if (expiraDate.before(new Date()))
+				return false;
+		} catch (ParseException e) {
+			return true;
+		}
 		return true;
 	}
 
