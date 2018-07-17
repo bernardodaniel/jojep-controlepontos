@@ -36,7 +36,7 @@ public class PessoaResource {
 	
 	@GetMapping("/admin/import")
 	public String importar() {
-		File file = new File("dados.csv");
+		File file = new File("dados_2018.csv");
 		
 		pessoaRepo.deleteAll();
 		
@@ -46,8 +46,8 @@ public class PessoaResource {
 			String st;
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
-			Date inicio = sdf.parse("30/07/2017");
-			Date fim = sdf.parse("02/10/2017");
+			Date inicio = sdf.parse("14/07/2018");
+			Date fim = sdf.parse("04/09/2018");
 			
 			while((st = br.readLine()) != null){
 				Date atual = inicio;
@@ -56,13 +56,13 @@ public class PessoaResource {
 				Pessoa p = new Pessoa();
 				
 				p.nome = colunas[0].trim();
-				p.sexo = colunas[1].substring(0, 1);
+				p.sexo = colunas[1];
 				p.endereco = colunas[2].trim();
 				p.cidade = colunas[3].trim();
 				p.email = colunas[4].trim();
 				p.celular = colunas[5].trim();
-				p.telefone = colunas[6].trim();
-				p.empresa = colunas[7].trim();
+//				p.telefone = colunas[6].trim();
+//				p.empresa = colunas[7].trim();
 				
 				int seq = 1;
 				

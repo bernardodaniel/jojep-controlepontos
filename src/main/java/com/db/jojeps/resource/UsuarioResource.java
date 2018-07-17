@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.db.jojeps.api.model.Credenciais;
 import com.db.jojeps.api.model.Papel;
+import com.db.jojeps.api.model.Pessoa;
 import com.db.jojeps.api.model.Usuario;
 import com.db.jojeps.api.repository.UsuarioRepository;
 
@@ -53,19 +55,22 @@ public class UsuarioResource {
 	
 	@GetMapping("/admin/import/user")
 	public String importar() {
-		File file = new File("usuarios.csv");
+		File file = new File("usuarios_2018.csv");
 		
+		String expiraEm = "10/09/2018 00:00";
 		usuarioRepo.deleteAll();
 		
 		Usuario su = new Usuario();
 		su.setUsername("admin");
-		su.setPassword("123");
+		su.setPassword("ops.!@#");
 		su.addPapel(new Papel("su"));
+		su.setExpiraEm("09/09/2021 00:00");
 		
 		Usuario admin = new Usuario();
 		admin.setUsername("administrador");
 		admin.setPassword("admjojeps");
 		admin.addPapel(new Papel("admin"));
+		admin.setExpiraEm(expiraEm);
 		
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
@@ -78,9 +83,10 @@ public class UsuarioResource {
 				
 				Usuario u = new Usuario();
 				u.setUsername(colunas[1]);
-				u.setPassword("jojeps2017");
+				u.setPassword(colunas[2]);
 				u.addPapel(new Papel("coordenador"));
 				u.addCidade(cidade);
+				u.setExpiraEm(expiraEm);
 				
 				usuarioRepo.save(u);
 				System.out.println(u);
@@ -100,6 +106,11 @@ public class UsuarioResource {
 		}
 		
 		return "sucesso";
+	}
+	
+	@GetMapping("/admin/export/user")
+	public List<Usuario> export() {
+		return usuarioRepo.findAll();
 	}
 	
 }

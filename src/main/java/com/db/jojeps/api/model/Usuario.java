@@ -65,6 +65,10 @@ public class Usuario implements UserDetails {
 		return expiraEm;
 	}
 
+	public void setExpiraEm(String expiraEm) {
+		this.expiraEm = expiraEm;
+	}
+
 	@Override
 	public boolean isAccountNonExpired() {
 		try {
