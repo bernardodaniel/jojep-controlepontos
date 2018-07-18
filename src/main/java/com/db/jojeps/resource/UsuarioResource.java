@@ -79,11 +79,11 @@ public class UsuarioResource {
 			
 			while((st = br.readLine()) != null){
 				String[] colunas = st.split(";");
-				String cidade = colunas[0];
+				String cidade = colunas[0].trim();
 				
 				Usuario u = new Usuario();
-				u.setUsername(colunas[1]);
-				u.setPassword(colunas[2]);
+				u.setUsername(colunas[1].trim());
+				u.setPassword(colunas[2].trim());
 				u.addPapel(new Papel("coordenador"));
 				u.addCidade(cidade);
 				u.setExpiraEm(expiraEm);

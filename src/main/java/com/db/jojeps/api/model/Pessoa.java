@@ -27,7 +27,7 @@ public class Pessoa {
 
 	@Override
 	public String toString() {
-		return nome + " - " + cidade + " - " + totalPontos;
+		return nome + " - " + cidade + " - " + pontos;
 	}
 	
 	public Double getTotalPontos() {
