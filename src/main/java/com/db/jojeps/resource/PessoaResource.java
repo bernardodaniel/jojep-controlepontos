@@ -36,7 +36,7 @@ public class PessoaResource {
 	
 	@GetMapping("/admin/import")
 	public String importar() {
-		File file = new File("dados_2018.csv");
+		File file = new File("dados_2019.csv");
 		
 		pessoaRepo.deleteAll();
 		
