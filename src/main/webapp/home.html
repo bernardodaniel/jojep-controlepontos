@@ -105,7 +105,7 @@
             </li>
             <li><button class="btn btn-link">Semana {{controller.semana+1}}</button></li>
             <li>
-              <button class="btn btn-link" ng-click="controller.proximaSemana()" ng-disabled="controller.semana === 8">
+              <button class="btn btn-link" ng-click="controller.proximaSemana()" ng-disabled="controller.semana == controller.semanas.length - 1">
                 <span aria-hidden="true">&raquo;</span>
               </button>
             </li>
