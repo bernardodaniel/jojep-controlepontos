@@ -73,11 +73,6 @@ angular.module('app', ['ngRoute'])
     		self.semana--;
     	}
     	
-    	self.acabouSemanas = function() {
-    		self.semana == self.semanas.length - 1;
-    	}
-    	
-    	
     	self.save = function () {
     		
     		self.salvoComSucesso = false;
