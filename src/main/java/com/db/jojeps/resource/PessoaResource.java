@@ -46,8 +46,8 @@ public class PessoaResource {
 			String st;
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
-			Date inicio = sdf.parse("14/07/2018");
-			Date fim = sdf.parse("05/09/2018");
+			Date inicio = sdf.parse("11/08/2019");
+			Date fim = sdf.parse("12/10/2019");
 			
 			while((st = br.readLine()) != null){
 				Date atual = inicio;

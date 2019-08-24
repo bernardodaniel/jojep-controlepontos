@@ -55,16 +55,16 @@ public class UsuarioResource {
 	
 	@GetMapping("/admin/import/user")
 	public String importar() {
-		File file = new File("usuarios_2018.csv");
+		File file = new File("usuarios_2019.csv");
 		
-		String expiraEm = "10/09/2018 00:00";
+		String expiraEm = "10/09/2025 00:00";
 		usuarioRepo.deleteAll();
 		
 		Usuario su = new Usuario();
 		su.setUsername("admin");
 		su.setPassword("ops.!@#");
 		su.addPapel(new Papel("su"));
-		su.setExpiraEm("09/09/2021 00:00");
+		su.setExpiraEm("09/09/2025 00:00");
 		
 		Usuario admin = new Usuario();
 		admin.setUsername("administrador");
